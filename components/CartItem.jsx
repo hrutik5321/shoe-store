@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const CartItem = () => {
@@ -5,7 +6,7 @@ const CartItem = () => {
     <div className="flex py-5 gap-3 md:gap-5 border-b">
       {/* IMAGE START */}
       <div className="shrink-0 aspect-square w-[50px] md:w-[120px]">
-        <img src="product-1.webp" />
+        <Image alt="icon" src="product-1.webp" />
       </div>
       {/* IMAGE END */}
 
@@ -39,7 +40,11 @@ const CartItem = () => {
               <div className="font-semibold">Size:</div>
               <select className="hover:text-black">
                 {new Array(6).fill("_").map((d, i) => {
-                  return <option value={i + 6}>UK {i + 6}</option>;
+                  return (
+                    <option value={i + 6} key={i}>
+                      UK {i + 6}
+                    </option>
+                  );
                 })}
               </select>
             </div>
@@ -49,7 +54,12 @@ const CartItem = () => {
               <div className="font-semibold">Quantity:</div>
               <select className="hover:text-black">
                 {new Array(6).fill("_").map((d, i) => {
-                  return <option value={i + 1}> {i + 1}</option>;
+                  return (
+                    <option value={i + 1} key={i}>
+                      {" "}
+                      {i + 1}
+                    </option>
+                  );
                 })}
               </select>
             </div>

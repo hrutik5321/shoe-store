@@ -2,6 +2,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 
 import { BiArrowBack } from "react-icons/bi";
+import Image from "next/image";
 const HeroBanner = () => {
   return (
     <div className="relative text-white text-[20px] w-full max-w-[1360px] mx-auto">
@@ -29,7 +30,8 @@ const HeroBanner = () => {
         )}
       >
         <div>
-          <img
+          <Image
+            alt="icon"
             src="/slide-1.png"
             className="aspect-[16/10] md:aspect-auto object-cover"
           />
@@ -38,7 +40,8 @@ const HeroBanner = () => {
           </div>
         </div>
         <div>
-          <img
+          <Image
+            alt="icon"
             src="/slide-2.png"
             className="aspect-[16/10] md:aspect-auto object-cover"
           />
@@ -47,7 +50,8 @@ const HeroBanner = () => {
           </div>
         </div>
         <div>
-          <img
+          <Image
+            alt="icon"
             src="/slide-3.png"
             className="aspect-[16/10] md:aspect-auto object-cover"
           />

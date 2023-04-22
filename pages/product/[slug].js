@@ -50,6 +50,7 @@ const ProductDetails = () => {
               <div id="sizesGrid" className="grid grid-cols-3 gap-2">
                 {new Array(6).fill("_").map((d, i) => (
                   <div
+                    key={i}
                     className={
                       "border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer"
                     }

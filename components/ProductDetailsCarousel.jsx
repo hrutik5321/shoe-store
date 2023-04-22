@@ -1,5 +1,6 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import Image from "next/image";
 
 const ProductDetailsCarousel = () => {
   return (
@@ -11,12 +12,12 @@ const ProductDetailsCarousel = () => {
         thumbWidth={60}
         className="productCarousel"
       >
-        <img src="/p2.png" />
-        <img src="/p3.png" />
-        <img src="/p4.png" />
-        <img src="/p5.png" />
-        <img src="/p6.png" />
-        <img src="/p7.png" />
+        <Image alt="product image" src="/p2.png" />
+        <Image alt="product image" src="/p3.png" />
+        <Image alt="product image" src="/p4.png" />
+        <Image alt="product image" src="/p5.png" />
+        <Image alt="product image" src="/p6.png" />
+        <Image alt="product image" src="/p7.png" />
       </Carousel>
     </div>
   );
