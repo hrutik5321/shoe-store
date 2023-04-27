@@ -9,12 +9,17 @@ import { BiMenuAltRight } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import MenuMobile from "./MenuMobile";
 import Image from "next/image";
+import { fetchDataFromApi } from "@/utils/api";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showCatMenu, setshowCatMenu] = useState(false);
   const [show, setshow] = useState("translate-y-0");
   const [lastScrollY, setlastScrollY] = useState(0);
+  const [categories, setCategories] = useState(null);
+
+  const { cartItems } = useSelector((state) => state.cart);
 
   const controlNavBar = () => {
     if (window.scrollY > 200) {
@@ -36,6 +41,14 @@ const Header = () => {
     };
   }, [lastScrollY]);
 
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    const { data } = await fetchDataFromApi("/api/categories?populate=*");
+    setCategories(data);
+  };
   return (
     <header
       className={`w-full h-[50px] md:h-[80px] bg-white flex items-center justify-between z-20 sticky top-0 transition-transform duration-300 ${show}`}
@@ -44,13 +57,18 @@ const Header = () => {
         <Link href="/">
           <img alt="icon" src="/logo.svg" className="w-[40px] md:w-[60px]" />
         </Link>
-        <Menu showCatMenu={showCatMenu} setShowCatMenu={setshowCatMenu} />
+        <Menu
+          showCatMenu={showCatMenu}
+          setShowCatMenu={setshowCatMenu}
+          categories={categories}
+        />
 
         {mobileMenu && (
           <MenuMobile
             showCatMenu={showCatMenu}
             setShowCatMenu={setshowCatMenu}
             setMobileMenu={setMobileMenu}
+            categories={categories}
           />
         )}
 
@@ -75,14 +93,18 @@ const Header = () => {
             className="w-8 md:w-12 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative"
           >
             <BsCart className="text-[14px] md:text-[20px]" />
-            <div
-              className="h-[14px] md:h-[18px] min-w-[14px] md:min-w-[18px]
+            {cartItems.length ? (
+              <div
+                className="h-[14px] md:h-[18px] min-w-[14px] md:min-w-[18px]
               rounded-full bg-red-600 absolute top-1 left-5 md:left-7 text-white text-[10px] md:text-[12px]
               flex justify-center items-center px-[2px] md:px-[5px]
               "
-            >
-              5
-            </div>
+              >
+                {cartItems.length}
+              </div>
+            ) : (
+              ""
+            )}
           </Link>
           {/* ICON START END */}
 

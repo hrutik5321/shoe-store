@@ -1,12 +1,31 @@
+import { removefromCart, updateCart } from "@/store/cartSlice";
 import Image from "next/image";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useDispatch } from "react-redux";
 
-const CartItem = () => {
+const CartItem = ({ data }) => {
+  const p = data.attributes;
+  const dispatch = useDispatch();
+
+  const updateCartItem = (e, key) => {
+    let payload = {
+      key,
+      val: key === "quantity" ? parseInt(e.target.value) : e.target.value,
+      id: data.id,
+    };
+    dispatch(updateCart(payload));
+  };
+
   return (
     <div className="flex py-5 gap-3 md:gap-5 border-b">
       {/* IMAGE START */}
       <div className="shrink-0 aspect-square w-[50px] md:w-[120px]">
-        <Image alt="icon" src="product-1.webp" />
+        <Image
+          alt={p.name}
+          src={p.thumbnail.data.attributes.url}
+          width={120}
+          height={120}
+        />
       </div>
       {/* IMAGE END */}
 
@@ -14,23 +33,23 @@ const CartItem = () => {
         <div className="flex flex-col md:flex-row justify-between">
           {/* PRODUCT TITLE */}
           <div className="text-lg md:text-xl font-semibold text-black/[0.8]">
-            Jordan Retro 6 G
+            {data.attributes.name}
           </div>
 
           {/* PRODUCT SUBTITLE */}
           <div className="text-sm md:text-md font-medium text-black/[0.5] block md:hidden">
-            Men&apos;s Golf Shoes
+            {data.attributes.subtitle}
           </div>
 
           {/* PRODUCT PRICE */}
           <div className="text-sm md:text-md font-bold text-black/[0.5] mt-2">
-            MRP : &#8377; 19 695.00
+            MRP : &#8377;{data.attributes.price}
           </div>
         </div>
 
         {/* PRODUCT SUBTITLE */}
         <div className="text-md font-medium text-black/[0.5] hidden md:block">
-          Men&apos;s Golf Shoes
+          {data.attributes.subtitle}
         </div>
 
         <div className="flex items-center justify-between mt-4">
@@ -38,11 +57,19 @@ const CartItem = () => {
             {/* SELECT SIZE */}
             <div className="flex items-center gap-1">
               <div className="font-semibold">Size:</div>
-              <select className="hover:text-black">
-                {new Array(6).fill("_").map((d, i) => {
+              <select
+                className="hover:text-black"
+                onChange={(e) => updateCartItem(e, "selectedSize")}
+              >
+                {p.size.data.map((item, i) => {
                   return (
-                    <option value={i + 6} key={i}>
-                      UK {i + 6}
+                    <option
+                      value={item.size}
+                      key={i}
+                      disabled={!item.enabled}
+                      selected={data.selectedSize === item.size}
+                    >
+                      {item.size}
                     </option>
                   );
                 })}
@@ -52,11 +79,17 @@ const CartItem = () => {
             {/* SELECT QUANTITY */}
             <div className="flex items-center gap-1">
               <div className="font-semibold">Quantity:</div>
-              <select className="hover:text-black">
+              <select
+                className="hover:text-black"
+                onChange={(e) => updateCartItem(e, "quantity")}
+              >
                 {new Array(6).fill("_").map((d, i) => {
                   return (
-                    <option value={i + 1} key={i}>
-                      {" "}
+                    <option
+                      value={i + 1}
+                      key={i}
+                      selected={data.quantity === i + 1}
+                    >
                       {i + 1}
                     </option>
                   );
@@ -65,7 +98,10 @@ const CartItem = () => {
             </div>
           </div>
 
-          <RiDeleteBin6Line className="cursor-pointer text-black/[0.5] hover:text-black text-[16px] md:text-[20px]" />
+          <RiDeleteBin6Line
+            onClick={() => dispatch(removefromCart({ id: data.id }))}
+            className="cursor-pointer text-black/[0.5] hover:text-black text-[16px] md:text-[20px]"
+          />
         </div>
       </div>
     </div>
